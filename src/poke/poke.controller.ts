@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, HttpException, HttpStatus, Param } from '@nestjs/common';
 import { PokeService } from './poke.service';
 
 @Controller('poke')
@@ -8,7 +8,13 @@ export class PokeController {
     @Get('random')
     async getRandomPokemon(): Promise<string> {
         // return 'random pokemon' when the route is /poke/random
-        return this.pokeService.getRandomPokemon();
+        try{
+            return this.pokeService.getRandomPokemon();
+        }
+        catch (error){
+            console.log(error);
+            throw new HttpException('Invalid', HttpStatus.BAD_REQUEST);
+        }
     }
 
     // get pokemon by index
@@ -21,7 +27,7 @@ export class PokeController {
         }
         catch (error){
             console.log(error);
-            return '';
+            throw new HttpException('Invalid', HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -34,7 +40,7 @@ export class PokeController {
         }
         catch (error){
             console.log(error);
-            return [];
+            throw new HttpException('Invalid', HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -52,7 +58,7 @@ export class PokeController {
         }
         catch (error){
             console.log(error);
-            return [];
+            throw new HttpException('Invalid', HttpStatus.BAD_REQUEST);
         }
     }
 }
