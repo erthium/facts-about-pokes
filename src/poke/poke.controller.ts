@@ -31,7 +31,7 @@ export class PokeController {
         }
     }
 
-    @Get('all/:index')
+    @Get('abilities/:index')
     async getAllPokemonAbilities(@Param() params: any): Promise<string[]> {
         try{
             const index: number = parseInt(params.index);
@@ -44,7 +44,7 @@ export class PokeController {
         }
     }
 
-    @Get('def/:index')
+    @Get('defs/:index')
     async getAllPokemonAbilitiesDef(@Param() params: any): Promise<string[]> {
         try{
             const index: number = parseInt(params.index);
