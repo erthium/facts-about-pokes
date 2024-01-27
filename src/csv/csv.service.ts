@@ -5,6 +5,9 @@ import { Injectable } from '@nestjs/common';
 @Injectable()
 export class CsvService {
 
+  static separator: string = ',';
+
+  
   static async getNumberOfLines(csvFilePath: string): Promise<number> {
     return new Promise((resolve, reject) => {
       const stream = fs.createReadStream(csvFilePath);
@@ -28,6 +31,7 @@ export class CsvService {
       });
     });
   }
+
 
   static async getLineByIndex(csvFilePath: string, lineNumber: number): Promise<string> {
     return new Promise((resolve, reject) => {
@@ -57,6 +61,7 @@ export class CsvService {
       });
   }
 
+
   static async getLineByColumn(csvFilePath: string, columnIndex: number, columnData: string): Promise<string> {
     return new Promise((resolve, reject) => {
         const stream = fs.createReadStream(csvFilePath);
@@ -69,7 +74,7 @@ export class CsvService {
   
         reader.on('line', (line) => {
           currentLine++;
-          const columns = line.split(',');
+          const columns = line.split(this.separator);
           if (columns[columnIndex] === columnData) {
             const content = line;
             resolve(content);
@@ -85,6 +90,33 @@ export class CsvService {
         });
       });
   }
+
+
+  static async getColumnByIndex(csvFilePath: string, columnIndex: number): Promise<string[]> {
+    return new Promise((resolve, reject) => {
+        const stream = fs.createReadStream(csvFilePath);
+        const reader = readline.createInterface({
+          input: stream,
+          crlfDelay: Infinity,
+        });
+  
+        const columnData: string[] = [];
+  
+        reader.on('line', (line) => {
+          const columns = line.split(this.separator);
+          columnData.push(columns[columnIndex]);
+        });
+  
+        reader.on('close', () => {
+          resolve(columnData);
+        });
+  
+        reader.on('error', (error) => {
+          reject(error);
+        });
+      });
+  }
+
 
   static async getRandomLine(csvFilePath: string): Promise<string> {
     const numberOfLines = await this.getNumberOfLines(csvFilePath);
