@@ -1,5 +1,6 @@
 import { Controller, Get, HttpException, HttpStatus, Param } from '@nestjs/common';
 import { PokeService } from './poke.service';
+import { stringify } from 'querystring';
 
 @Controller('poke')
 export class PokeController {
@@ -52,7 +53,9 @@ export class PokeController {
             const ability_info: string[] = [];
             const allPokeAbilities: string[] = await this.pokeService.getAllPokemonAbilities(pokeName);
             for (let i = 0; i < allPokeAbilities.length; i++) {
-                ability_info.push(await this.pokeService.getAbilityInfo(allPokeAbilities[i]));
+                let abilityInfo: string = await this.pokeService.getAbilityInfo(allPokeAbilities[i]);
+                abilityInfo = abilityInfo.split(',').slice(1).join(',').replace("\"", "");        
+                ability_info.push(abilityInfo);
             }
             return ability_info;
         }
