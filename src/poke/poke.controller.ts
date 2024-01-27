@@ -64,4 +64,16 @@ export class PokeController {
             throw new HttpException('Invalid', HttpStatus.BAD_REQUEST);
         }
     }
+
+    @Get('suggest/:input')
+    async getSuggestions(@Param() params: any): Promise<string[]> {
+        try{
+            const inputText: string = params.input;
+            return this.pokeService.getSuggestions(inputText);
+        }
+        catch (error){
+            console.log(error);
+            throw new HttpException('Invalid', HttpStatus.BAD_REQUEST);
+        }
+    }
 }

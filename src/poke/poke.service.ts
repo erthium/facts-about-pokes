@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CsvService } from 'src/csv/csv.service';
 import { AppConfig } from 'src/config/config.module';
+import { SearchService } from 'src/search/search.service';
 
 @Injectable()
 export class PokeService {
@@ -34,5 +35,18 @@ export class PokeService {
 
     async getAbilityInfo(name: string): Promise<string> {
         return await CsvService.getLineByColumn(AppConfig.ability_info_path, 0, name);
+    }
+
+
+    async getSuggestions(inputText: string): Promise<string[]> {
+        const suggestions: string[] = [];
+        const pokemon_names: string[] = (await CsvService.getColumnByIndex(AppConfig.poke_data_path, 1));
+        for (let i = 0; i < pokemon_names.length; i++) {
+            let isSimiliar = await SearchService.isSimilar(inputText, pokemon_names[i]);
+            if (isSimiliar) {
+                suggestions.push(pokemon_names[i]);
+            }
+        }
+        return suggestions;
     }
 }
