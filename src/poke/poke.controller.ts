@@ -115,4 +115,17 @@ export class PokeController {
         }
     }
 
+
+    @Get('stats/:name')
+    async getPokemonStats(@Param() params: any): Promise<string> {
+        try{
+            const name: string = params.name;
+            return this.pokeService.getPokemonStats(name);
+        }
+        catch (error){
+            console.log(error);
+            throw new HttpException('Invalid', HttpStatus.BAD_REQUEST);
+        }
+    }
+
 }

@@ -90,4 +90,9 @@ export class PokeService {
         return await CsvService.getLineByColumn(AppConfig.move_info_path, 0, name);
     }
 
+
+    async getPokemonStats(name: string): Promise<string> {
+        return await CsvService.getLineByColumn(AppConfig.poke_stats_path, 0, name);
+    }
+
 }

@@ -7,5 +7,6 @@ export abstract class AppConfig {
     static readonly ability_info_path = path.join(__dirname, '../../data/pokemon/abilities_df.csv');
     static readonly poke_moves_path = path.join(__dirname, '../../data/pokemon/pokemon_learnset_df.csv');
     static readonly move_info_path = path.join(__dirname, '../../data/pokemon/moves_df.csv');
+    static readonly poke_stats_path = path.join(__dirname, '../../data/pokemon/pokemon_df.csv');
 
 }
