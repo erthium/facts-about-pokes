@@ -82,7 +82,7 @@ export class CsvService {
         });
   
         reader.on('close', () => {
-          reject(new Error('End of file reached before finding the random line.'));
+          reject(new Error('End of file reached before finding the column.'));
         });
   
         reader.on('error', (error) => {

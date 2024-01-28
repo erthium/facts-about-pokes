@@ -5,6 +5,28 @@ import { SearchService } from 'src/search/search.service';
 
 @Injectable()
 export class PokeService {
+
+    async isNameValid(name: string): Promise<boolean> {
+        const pokemon_names: string[] = (await CsvService.getColumnByIndex(AppConfig.poke_data_path, 0));
+        for (let i = 0; i < pokemon_names.length; i++) {
+            if (pokemon_names[i].toLowerCase() === name.toLowerCase()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    async nameToIndex(name: string): Promise<number> {
+        const pokemon_names: string[] = (await CsvService.getColumnByIndex(AppConfig.poke_data_path, 1));
+        for (let i = 0; i < pokemon_names.length; i++) {
+            if (pokemon_names[i] === name) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     // get the random pokemon line from the csv file
     // return the pokemon name
     async getRandomPokemon(): Promise<string> {
@@ -40,7 +62,7 @@ export class PokeService {
 
     async getSuggestions(inputText: string): Promise<string[]> {
         const suggestions: string[] = [];
-        const pokemon_names: string[] = (await CsvService.getColumnByIndex(AppConfig.poke_data_path, 1));
+        const pokemon_names: string[] = (await CsvService.getColumnByIndex(AppConfig.poke_data_path, 0));
         for (let i = 0; i < pokemon_names.length; i++) {
             let isSimiliar = await SearchService.isSimilar(inputText, pokemon_names[i]);
             if (isSimiliar) {
