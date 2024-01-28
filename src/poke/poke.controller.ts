@@ -57,17 +57,17 @@ export class PokeController {
         }
     }
 
-    @Get('defs/:name')
+    @Get('abilities/defs/:name')
     async getAllPokemonAbilitiesDef(@Param() params: any): Promise<string[]> {
         try{
-            const ability_info: string[] = [];
+            const abilityInfoList: string[] = [];
             const allPokeAbilities: string[] = await this.pokeService.getAllPokemonAbilities(params.name);
             for (let i = 0; i < allPokeAbilities.length; i++) {
                 let abilityInfo: string = await this.pokeService.getAbilityInfo(allPokeAbilities[i]);
                 abilityInfo = abilityInfo.split(',').slice(1).join(',').replace("\"", "");        
-                ability_info.push(abilityInfo);
+                abilityInfoList.push(abilityInfo);
             }
-            return ability_info;
+            return abilityInfoList;
         }
         catch (error){
             console.log(error);
@@ -86,4 +86,33 @@ export class PokeController {
             throw new HttpException('Invalid', HttpStatus.BAD_REQUEST);
         }
     }
+
+    @Get('moves/:name')
+    async getAllPokemonMoves(@Param() params: any): Promise<string[]> {
+        try{
+            return this.pokeService.getAllPokemonMoves(params.name);
+        }
+        catch (error){
+            console.log(error);
+            throw new HttpException('Invalid', HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @Get('moves/defs/:name')
+    async getAllPokemonMovesDef(name: string): Promise<string[]> {
+        try{
+            const moveInfoList: string[] = [];
+            const allPokeMoves: string[] = await this.pokeService.getAllPokemonMoves(name);
+            for (let i = 0; i < allPokeMoves.length; i++) {
+                let moveInfo: string = await this.pokeService.getMoveInfo(allPokeMoves[i]);
+                moveInfoList.push(moveInfo);
+            }
+            return moveInfoList;
+        }
+        catch (error){
+            console.log(error);
+            throw new HttpException('Invalid', HttpStatus.BAD_REQUEST);
+        }
+    }
+
 }

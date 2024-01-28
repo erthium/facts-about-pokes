@@ -94,35 +94,35 @@ export class CsvService {
     }
 
 
-  static async getColumnByIndex(csvFilePath: string, columnIndex: number): Promise<string[]> {
-    return new Promise((resolve, reject) => {
-        const stream = fs.createReadStream(csvFilePath);
-        const reader = readline.createInterface({
-          input: stream,
-          crlfDelay: Infinity,
+    static async getColumnByIndex(csvFilePath: string, columnIndex: number): Promise<string[]> {
+      return new Promise((resolve, reject) => {
+          const stream = fs.createReadStream(csvFilePath);
+          const reader = readline.createInterface({
+              input: stream,
+              crlfDelay: Infinity,
+          });
+    
+          const columnData: string[] = [];
+    
+          reader.on('line', (line) => {
+              const columns = line.split(this.separator);
+              columnData.push(columns[columnIndex]);
+          });
+    
+          reader.on('close', () => {
+              resolve(columnData);
+          });
+    
+          reader.on('error', (error) => {
+              reject(error);
+          });
         });
-  
-        const columnData: string[] = [];
-  
-        reader.on('line', (line) => {
-          const columns = line.split(this.separator);
-          columnData.push(columns[columnIndex]);
-        });
-  
-        reader.on('close', () => {
-          resolve(columnData);
-        });
-  
-        reader.on('error', (error) => {
-          reject(error);
-        });
-      });
-  }
+    }
 
 
-  static async getRandomLine(csvFilePath: string): Promise<string> {
-    const numberOfLines = await this.getNumberOfLines(csvFilePath);
-    const randomLineNumber = Math.floor(Math.random() * numberOfLines) + 1;
-    return this.getLineByIndex(csvFilePath, randomLineNumber);
-  }
+    static async getRandomLine(csvFilePath: string): Promise<string> {
+        const numberOfLines = await this.getNumberOfLines(csvFilePath);
+        const randomLineNumber = Math.floor(Math.random() * numberOfLines) + 1;
+        return this.getLineByIndex(csvFilePath, randomLineNumber);
+    }
 }

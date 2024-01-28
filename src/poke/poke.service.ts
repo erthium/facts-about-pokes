@@ -44,11 +44,11 @@ export class PokeService {
 
     async getAllPokemonAbilities(name: string): Promise<string[]> {
         const abilityList: string[] = [];
-        const ability_names: string[] = (await CsvService.getLineByIndex(AppConfig.poke_ability_data_path, 1)).split(CsvService.separator);
-        const pokemon_abilities: string[] = (await CsvService.getLineByColumn(AppConfig.poke_ability_data_path, 0, name)).split(CsvService.separator);
-        for (let i = 0; i < pokemon_abilities.length; i++) {
-            if (pokemon_abilities[i] === '1') {
-                abilityList.push(ability_names[i]);
+        const abilityNames: string[] = (await CsvService.getLineByIndex(AppConfig.poke_ability_data_path, 1)).split(CsvService.separator);
+        const pokemonAbilities: string[] = (await CsvService.getLineByColumn(AppConfig.poke_ability_data_path, 0, name)).split(CsvService.separator);
+        for (let i = 0; i < pokemonAbilities.length; i++) {
+            if (pokemonAbilities[i] === '1') {
+                abilityList.push(abilityNames[i]);
             }
         }
         return abilityList;
@@ -71,4 +71,23 @@ export class PokeService {
         }
         return suggestions;
     }
+
+
+    async getAllPokemonMoves(name: string): Promise<string[]> {
+        const moveList: string[] = [];
+        const moveNames: string[] = (await CsvService.getLineByIndex(AppConfig.poke_moves_path, 1)).split(CsvService.separator);
+        const pokemonMoves: string[] = (await CsvService.getLineByColumn(AppConfig.poke_moves_path, 0, name)).split(CsvService.separator);
+        for (let i = 0; i < pokemonMoves.length; i++) {
+            if (pokemonMoves[i] === '1') {
+                moveList.push(moveNames[i]);
+            }
+        }
+        return moveList;
+    }
+
+
+    async getMoveInfo(name: string): Promise<string> {
+        return await CsvService.getLineByColumn(AppConfig.move_info_path, 0, name);
+    }
+
 }
