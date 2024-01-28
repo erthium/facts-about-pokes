@@ -95,4 +95,17 @@ export class PokeService {
         return await CsvService.getLineByColumn(AppConfig.poke_stats_path, 0, name);
     }
 
+
+    async getPokemonTypes(name: string): Promise<string[]> {
+        const typeList: string[] = [];
+        const typeNames: string[] = (await CsvService.getLineByIndex(AppConfig.poke_types_path, 1)).split(CsvService.separator);
+        const pokemonTypes: string[] = (await CsvService.getLineByColumn(AppConfig.poke_types_path, 0, name)).split(CsvService.separator);
+        for (let i = 0; i < pokemonTypes.length; i++) {
+            if (pokemonTypes[i] === '1') {
+                typeList.push(typeNames[i]);
+            }
+        }
+        return typeList;
+    }
+
 }

@@ -20,6 +20,7 @@ export class PokeController {
         }
     }
 
+
     @Get('random')
     async getRandomPokemon(): Promise<string> {
         // return 'random pokemon' when the route is /poke/random
@@ -32,7 +33,7 @@ export class PokeController {
         }
     }
 
-    // get pokemon by name
+
     @Get(':index')
     async getPokemonByIndex(@Param() params: any): Promise<string> {
         //parse params.index to number
@@ -46,6 +47,7 @@ export class PokeController {
         }
     }
 
+
     @Get('abilities/:name')
     async getAllPokemonAbilities(@Param() params: any): Promise<string[]> {
         try{
@@ -56,6 +58,7 @@ export class PokeController {
             throw new HttpException('Invalid', HttpStatus.BAD_REQUEST);
         }
     }
+
 
     @Get('abilities/defs/:name')
     async getAllPokemonAbilitiesDef(@Param() params: any): Promise<string[]> {
@@ -75,6 +78,7 @@ export class PokeController {
         }
     }
 
+
     @Get('suggest/:input')
     async getSuggestions(@Param() params: any): Promise<string[]> {
         try{
@@ -87,6 +91,7 @@ export class PokeController {
         }
     }
 
+
     @Get('moves/:name')
     async getAllPokemonMoves(@Param() params: any): Promise<string[]> {
         try{
@@ -98,6 +103,7 @@ export class PokeController {
         }
     }
 
+    
     @Get('moves/defs/:name')
     async getAllPokemonMovesDef(name: string): Promise<string[]> {
         try{
@@ -121,6 +127,19 @@ export class PokeController {
         try{
             const name: string = params.name;
             return this.pokeService.getPokemonStats(name);
+        }
+        catch (error){
+            console.log(error);
+            throw new HttpException('Invalid', HttpStatus.BAD_REQUEST);
+        }
+    }
+
+
+    @Get('types/:name')
+    async getPokemonTypes(@Param() params: any): Promise<string[]> {
+        try{
+            const name: string = params.name;
+            return this.pokeService.getPokemonTypes(name);
         }
         catch (error){
             console.log(error);
