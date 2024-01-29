@@ -66,8 +66,7 @@ export class PokeController {
             const abilityInfoList: string[] = [];
             const allPokeAbilities: string[] = await this.pokeService.getAllPokemonAbilities(params.name);
             for (let i = 0; i < allPokeAbilities.length; i++) {
-                let abilityInfo: string = await this.pokeService.getAbilityInfo(allPokeAbilities[i]);
-                abilityInfo = abilityInfo.split(',').slice(1).join(',').replace("\"", "");        
+                const abilityInfo: string = await this.pokeService.getAbilityInfo(allPokeAbilities[i]);
                 abilityInfoList.push(abilityInfo);
             }
             return abilityInfoList;
@@ -110,7 +109,7 @@ export class PokeController {
             const moveInfoList: string[] = [];
             const allPokeMoves: string[] = await this.pokeService.getAllPokemonMoves(params.name);
             for (let i = 0; i < allPokeMoves.length; i++) {
-                let moveInfo: string = await this.pokeService.getMoveInfo(allPokeMoves[i]);
+                const moveInfo: string = await this.pokeService.getMoveInfo(allPokeMoves[i]);
                 moveInfoList.push(moveInfo);
             }
             return moveInfoList;

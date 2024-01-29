@@ -56,7 +56,9 @@ export class PokeService {
 
 
     async getAbilityInfo(name: string): Promise<string> {
-        return await CsvService.getLineByColumn(AppConfig.ability_info_path, 0, name);
+        let abilityInfo: string = await CsvService.getLineByColumn(AppConfig.ability_info_path, 0, name);
+        abilityInfo = abilityInfo.split(',').slice(1).join(',').replace("\"", "");
+        return abilityInfo;
     }
 
 
@@ -87,7 +89,9 @@ export class PokeService {
 
 
     async getMoveInfo(name: string): Promise<string> {
-        return await CsvService.getLineByColumn(AppConfig.move_info_path, 0, name);
+        let moveInfo: string = await CsvService.getLineByColumn(AppConfig.move_info_path, 0, name);
+        moveInfo = moveInfo.split(',').slice(1).join(',').replace("\"", "");
+        return moveInfo;
     }
 
 
