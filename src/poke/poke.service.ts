@@ -33,7 +33,9 @@ export class PokeService {
     // return the pokemon name
     async getRandomPokemon(): Promise<string> {
         const randomLine = await CsvService.getRandomLine(AppConfig.poke_data_path);
-        return randomLine;
+        // get poke name from the line
+        const pokemonName = randomLine.split(CsvService.separator)[0];
+        return pokemonName;
     }
 
 
