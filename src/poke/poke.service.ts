@@ -8,6 +8,8 @@ export class PokeService {
 
     async isNameValid(name: string): Promise<boolean> {
         const pokemon_names: string[] = (await CsvService.getColumnByIndex(AppConfig.poke_data_path, 0));
+        // remove the first element of the array which is the column name
+        pokemon_names.shift();
         for (let i = 0; i < pokemon_names.length; i++) {
             if (pokemon_names[i].toLowerCase() === name.toLowerCase()) {
                 return true;
@@ -65,6 +67,8 @@ export class PokeService {
     async getSuggestions(inputText: string): Promise<string[]> {
         const suggestions: string[] = [];
         const pokemon_names: string[] = (await CsvService.getColumnByIndex(AppConfig.poke_data_path, 0));
+        // remove the first element of the array which is the column name
+        pokemon_names.shift();
         for (let i = 0; i < pokemon_names.length; i++) {
             let isSimiliar = await SearchService.isSimilar(inputText, pokemon_names[i]);
             if (isSimiliar) {
