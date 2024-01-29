@@ -1,4 +1,3 @@
-import { Module } from '@nestjs/common';
 import * as path from 'path';
 
 export abstract class AppConfig {

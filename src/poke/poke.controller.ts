@@ -1,6 +1,5 @@
 import { Controller, Get, HttpException, HttpStatus, Param } from '@nestjs/common';
 import { PokeService } from './poke.service';
-import { stringify } from 'querystring';
 
 @Controller('poke')
 export class PokeController {
