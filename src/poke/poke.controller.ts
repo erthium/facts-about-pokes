@@ -105,10 +105,10 @@ export class PokeController {
 
     
     @Get('moves/defs/:name')
-    async getAllPokemonMovesDef(name: string): Promise<string[]> {
+    async getAllPokemonMovesDef(@Param() params: any): Promise<string[]> {
         try{
             const moveInfoList: string[] = [];
-            const allPokeMoves: string[] = await this.pokeService.getAllPokemonMoves(name);
+            const allPokeMoves: string[] = await this.pokeService.getAllPokemonMoves(params.name);
             for (let i = 0; i < allPokeMoves.length; i++) {
                 let moveInfo: string = await this.pokeService.getMoveInfo(allPokeMoves[i]);
                 moveInfoList.push(moveInfo);
