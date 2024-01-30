@@ -104,17 +104,15 @@ BASE_URL
 ```
 
 
-### Endpoints
-
 There are 2 controllers, `/poke` and `/image`.
 
-#### Controller /poke
+### Controller /poke
 
 For getting main pokemon data, `${BASE_URL}/poke` is used.
 
 ---
 
-##### GET /poke/valid/:name
+#### GET /poke/valid/:name
 
 Checks if the given name is a valid pokemon name.
 
@@ -133,7 +131,7 @@ OUTPUT: false
 
 ---
 
-##### GET /poke/random
+#### GET /poke/random
 
 Gets a random pokemon name from the dataset.
 
@@ -153,7 +151,7 @@ OUTPUT: pikachu
 ---
 
 
-##### GET /poke/:index
+#### GET /poke/:index
 
 Gets the pokemon name at the given index in the dataset.
 
@@ -172,7 +170,7 @@ OUTPUT: pikachu
 
 ---
 
-##### GET /poke/abilities/:name
+#### GET /poke/abilities/:name
 
 Gets the abilities of the pokemon with the given name.
 
@@ -190,7 +188,7 @@ OUTPUT: ["Static", "Lightning Rod"]
 
 ---
 
-##### GET /poke/ability/defs/:name
+#### GET /poke/ability/defs/:name
 
 Gets the definitions of the abilities of the pokemon with the given name.
 
@@ -209,7 +207,7 @@ OUTPUT: ["Powers up Fire-type moves in a pinch.", "Boosts the Sp. Atk stat in ha
 
 ---
 
-##### GET /poke/suggest/:input
+#### GET /poke/suggest/:input
 
 Gets the pokemon names that resembles the given input.
 
@@ -227,7 +225,7 @@ OUTPUT: ["charizard", "charmeleon", "charmander"]
 
 ---
 
-##### GET /poke/moves/:name
+#### GET /poke/moves/:name
 
 Gets the moves of the pokemon with the given name.
 
@@ -245,7 +243,7 @@ OUTPUT: ["fire-fang", "flamethrower", "fire-blast", "wing-attack", "slash", "dra
 
 ---
 
-##### GET /poke/move/defs/:name
+#### GET /poke/move/defs/:name
 
 Gets the definitions of the moves of the pokemon with the given name.
 
@@ -263,7 +261,7 @@ OUTPUT: ["Has a 10% chance to burn the target.", "Has a 10% chance to burn the t
 
 ---
 
-##### GET /poke/stats/:name
+#### GET /poke/stats/:name
 
 Gets the stats of the pokemon with the given name.
 
@@ -282,7 +280,7 @@ OUTPUT: Charizard,78,84,78,109,85,100,1.7,90.5,OU,RSE
 
 ---
 
-##### GET /poke/types/:name
+#### GET /poke/types/:name
 
 Gets the types of the pokemon with the given name.
 
@@ -301,7 +299,7 @@ OUTPUT: ["electric"]
 
 ---
 
-#### Controller /image
+### Controller /image
 
 For getting pokemon image, `${BASE_URL}/image` is used.
 
@@ -309,7 +307,7 @@ Currently only pokemondb.com images are supported, tough it is planned to be ext
 
 ---
 
-##### GET /image/:name
+#### GET /image/:name
 
 Gets the image url of the pokemon with the given name.
 
