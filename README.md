@@ -24,7 +24,7 @@ For package management, [NPM](https://www.npmjs.com/) version 10.4.0 is used.
 # installation
 $ npm install
 
-# development
+# running
 $ npm run start
 
 # unit tests
@@ -86,22 +86,19 @@ There is **zero** authentication, CORS is enabled for all origins.
 
 Enpoing structure:
 
-```
-BASE_URL
-  /poke
-    /valid/:name
-    /random
-    /:index
-    /abilities/:name
-    /ability/defs/:name
-    /suggest/:input
-    /moves/:name
-    /move/defs/:name
-    /stats/:name
-    /types/:name
-  /image
-    /:name
-```
+- [/poke](#controller-poke)
+  - [/valid/:name](#get-pokevalidname)
+  - [/random](#get-pokerandom)
+  - [/:index](#get-pokeindex)
+  - [/abilities/:name](#get-pokeabilitiesname)
+  - [/ability/defs/:name](#get-pokeabilitydefsname)
+  - [/suggest/:input](#get-pokesuggestinput)
+  - [/moves/:name](#get-pokemovesname)
+  - [/move/defs/:name](#get-pokemovedefsname)
+  - [/stats/:name](#get-pokestatsname)
+  - [/types/:name](#get-poketypesname)
+- [/image](#controller-image)
+  - [/:name](#get-imagename)
 
 
 There are 2 controllers, `/poke` and `/image`.
