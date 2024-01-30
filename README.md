@@ -31,6 +31,41 @@ $ npm run start
 $ npm run test
 ```
 
+There is almost none unit tests for now, hopefully will be added in the future.
+
+
+## Services and Helpers
+
+#### Abstract Class AppConfig
+
+General-use static variables are defined here. Mostly for the dataset file paths.
+
+#### Class PokemonService
+
+For getting pokemon data from the dataset. Helper service for PokeController.
+
+#### Class CsvService
+
+Mostly used in PokemonService class. All properties and methods are static.
+
+For reading csv files in the dataset. May not be the best way to do it, but still fine for manipulating csv files without holding the entire file in memory.
+
+Static `separator` property is set to `,` for current database, for splitting any csv output from CsvService, this property should be used.
+
+#### Class SearchService
+
+Used in PokemonService.getSuggestions() method for creating a simple fuzzy search algorithm for pokemon names.
+
+Uses a simple levenstein distance algorithm, with a threshold of 0.72.
+
+Uses a simplification process to reduce characters with accents to their base characters in ASCII.
+
+Also checks if the input word is a substring of any pokemon name.
+
+#### Class ImageService
+
+For getting pokemon images. Helper service for ImageController.
+
 
 ## API Documentation
 
@@ -280,4 +315,3 @@ GET ${BASE_URL}/image/charizard
 OUTPUT: https://img.pokemondb.net/artwork/large/charizard.jpg
 OUTPUT: https://img.pokemondb.net/artwork/large/pikachu.jpg
 ```
-
