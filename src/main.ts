@@ -6,6 +6,8 @@ async function bootstrap() {
   // CORS need to allow access to 'https://site-about-pokes.vercel.app/'
   app.enableCors({
     origin: 'https://site-about-pokes.vercel.app',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    credentials: true
   });
   await app.listen(3000);
 }
