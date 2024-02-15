@@ -9,8 +9,10 @@ export class ImageService {
         return `https://img.pokemondb.net/artwork/large/${name}.jpg`;
     }
 
-    async generateImage(prompt: string): Promise<string> {
-        return this.openAiService.generateImage(prompt);
+    async generateImage(pokeName: string): Promise<string> {
+        const prompt: string = `Create an image for the pokemon named ${pokeName} in the wild in Pokemon Universe`;
+        const imageUrl: string = await this.openAiService.generateImage(prompt);
+        return imageUrl;
     }
 
 
