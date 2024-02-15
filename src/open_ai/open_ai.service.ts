@@ -1,17 +1,31 @@
 import { Injectable } from '@nestjs/common';
 import OpenAI from 'openai';
 
-const getApiKey = () => {
-    return process.env.OPENAI_API_KEY;
+const getAPIKey = () => {
+    const api_key = process.env.OPENAI_API_KEY;
+    if (api_key === undefined) {
+        throw new Error("OpenAI API Key is missing!");
+    }
+    const pattern = new RegExp("sk-[a-zA-Z0-9]{48}");
+    if (!pattern.test(api_key)) {
+        throw new Error("OpenAI API Key is not valid!");
+    }
+    return api_key;
 }
-
 
 @Injectable()
 export class OpenAiService {
-    static askQuestion = async (question: string) => {
+
+    testKey = async () => {
         const openai = new OpenAI({
-            apiKey: getApiKey(),
-            dangerouslyAllowBrowser: true
+            apiKey: getAPIKey()
+        });
+    }
+
+    askQuestion = async (question: string) => {
+        const openai = new OpenAI({
+            apiKey: getAPIKey(),
+            //dangerouslyAllowBrowser: true
         });
         const gptResponse = await openai.chat.completions.create({
             model: 'gpt-3.5-turbo',
@@ -20,27 +34,26 @@ export class OpenAiService {
         return gptResponse.choices[0].message.content || "Something went wrong";
     }
 
-
-    static askInStream = async (question: string, callBack: (input: string | null | undefined) => void) => {
+    modifyImage = async (prompt: string): Promise<string> => {
         const openai = new OpenAI({
-            apiKey: getApiKey(),
-            dangerouslyAllowBrowser: true
+            apiKey: getAPIKey(),
+            //dangerouslyAllowBrowser: true
         });
-        const gptStream = await openai.chat.completions.create({
-            model: 'gpt-3.5-turbo',
-            stream: true,
-            messages: [{ role: 'user', content: question }]
+        
+        const gptResponse = await openai.images.generate({
+            prompt: prompt,
+            response_format: 'url',
+            model: 'dall-e-2',
+            size: '512x512'
         });
-        let index = 0;
-        for await (const chunk of gptStream) {
-            callBack(chunk.choices[0]?.delta?.content);
-            console.log(index + "|| " + chunk.choices[0]?.delta?.content + " ||")
-            index++;
-        }
+        
+        const imageUrl: string = gptResponse.data[0].url;
+        
+        return imageUrl;
     }
 }
 
-/* gptResponse format
+/* text completion response format
 {
   "choices": [
     {

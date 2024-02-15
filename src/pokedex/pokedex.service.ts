@@ -35,31 +35,7 @@ const questionToTitle = (question: Questions): string => {
 
 @Injectable()
 export class PokedexService {
-    private pokedexCallback: (input: string) => void = () => {};
-    private pokemonName = '';
-    private currentQuestionType: Questions = Questions.none;
-    private currentMessage = '';
-
-    constructor(callBack: (input: string) => void) {
-        this.pokedexCallback = callBack;
-    }
-
-    prepareForNewMessage = (pokeName: string, questionType: Questions) => {
-        this.pokemonName = pokeName;
-        this.currentQuestionType = questionType;
-        this.currentMessage = '';
-    }
-    
-    handleCallback = (input: string | null | undefined): void => {
-        if (input) {
-            this.currentMessage += input;
-            this.pokedexCallback(this.currentMessage);
-        }
-        else {
-            this.pokedexCallback(this.currentMessage);
-            this.cacheData(this.pokemonName, this.currentQuestionType, this.currentMessage);
-        }
-    }
+    constructor(private openAiService: OpenAiService) { }
 
     checkIfAlreadyCached = async (pokeName: string, questionType: Questions): Promise<string> => {
         const questionTitle: string = questionToTitle(questionType);
@@ -75,56 +51,41 @@ export class PokedexService {
         await AiHistoryService.addPokemonData(pokeName, questionTitle, data);
     }
 
-    // methods with streaming
-    askAboutMoreInStream = async (pokeName: string): Promise<void> => {
-        const cachedData = await this.checkIfAlreadyCached(pokeName, Questions.about);
-        if (cachedData) {
-            this.handleCallback(cachedData);
-            return;
-        }
-        this.prepareForNewMessage(pokeName, Questions.about);
-        const messageData: string = createQuestionText(Questions.about, pokeName);
-        OpenAiService.askInStream(messageData, this.handleCallback);
-    }
-
 
     // methods without streaming
-    askAboutMore = async (pokeName: string): Promise<void> => {
+    askAboutMore = async (pokeName: string): Promise<string> => {
         const cachedData = await this.checkIfAlreadyCached(pokeName, Questions.about);
         if (cachedData) {
-            this.handleCallback(cachedData);
-            return;
+            return cachedData;
         }
         const messageData: string = createQuestionText(Questions.about, pokeName);
-        const answer: string = await OpenAiService.askQuestion(messageData);
-        this.pokedexCallback(answer);
-        this.cacheData(this.pokemonName, this.currentQuestionType, this.currentMessage);
+        const answer: string = await this.openAiService.askQuestion(messageData);
+        this.cacheData(pokeName, Questions.about, answer);
+        return answer;
     }
 
 
-    askAboutWeaknesses = async (pokeName: string): Promise<void> => {
+    askAboutWeaknesses = async (pokeName: string): Promise<string> => {
         const cachedData = await this.checkIfAlreadyCached(pokeName, Questions.weaknesses);
         if (cachedData) {
-            this.handleCallback(cachedData);
-            return;
+            return cachedData;
         }
         const messageData: string = createQuestionText(Questions.weaknesses, pokeName);
-        const answer: string = await OpenAiService.askQuestion(messageData);
-        this.pokedexCallback(answer);
-        this.cacheData(this.pokemonName, this.currentQuestionType, this.currentMessage);
+        const answer: string = await this.openAiService.askQuestion(messageData);
+        this.cacheData(pokeName, Questions.weaknesses, answer);
+        return answer;
     }
 
 
-    askAboutStrengths = async (pokeName: string): Promise<void> => {
+    askAboutStrengths = async (pokeName: string): Promise<string> => {
         const cachedData = await this.checkIfAlreadyCached(pokeName, Questions.strengths);
         if (cachedData) {
-            this.handleCallback(cachedData);
-            return;
+            return cachedData;
         }
         const messageData: string = createQuestionText(Questions.strengths, pokeName);
-        const answer: string = await OpenAiService.askQuestion(messageData);
-        this.pokedexCallback(answer);
-        this.cacheData(this.pokemonName, this.currentQuestionType, this.currentMessage);
+        const answer: string = await this.openAiService.askQuestion(messageData);
+        this.cacheData(pokeName, Questions.strengths, answer);
+        return answer;
     }
 
 }
