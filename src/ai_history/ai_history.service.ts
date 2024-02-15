@@ -12,13 +12,13 @@ export class AiHistoryService {
     }
 
 
-    static getPokemonData = async (name: string, questionTitle: string): Promise<string> => {
+    static getPokemonData = async (name: string, questionTitle: string): Promise<string | undefined> => {
         const pokedexData = await AiHistoryService.getPokedexData();
         if (!pokedexData[name]) {
-            return '';
+            return undefined;
         }
         if (!pokedexData[name][questionTitle]) {
-            return '';
+            return undefined;
         }
         return pokedexData[name][questionTitle];
     }

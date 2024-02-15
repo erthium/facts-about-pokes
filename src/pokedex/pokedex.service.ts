@@ -37,13 +37,23 @@ const questionToTitle = (question: Questions): string => {
 export class PokedexService {
     constructor(private openAiService: OpenAiService) { }
 
-    checkIfAlreadyCached = async (pokeName: string, questionType: Questions): Promise<string> => {
+    testConnection = async (): Promise<boolean> => {
+        try {
+            await this.openAiService.testKey();
+            return true;
+        }
+        catch (e) {
+            return false;
+        }
+    }
+
+    checkIfAlreadyCached = async (pokeName: string, questionType: Questions): Promise<string | undefined> => {
         const questionTitle: string = questionToTitle(questionType);
         const cachedData = await AiHistoryService.getPokemonData(pokeName, questionTitle);
         if (cachedData) {
             return cachedData;
         }
-        return '';
+        return undefined;
     }
 
     cacheData = async (pokeName: string, questionType: Questions, data: string): Promise<void> => {
