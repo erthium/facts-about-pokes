@@ -1,4 +1,6 @@
 import { Module} from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PokeController } from './poke/poke.controller';
@@ -13,22 +15,24 @@ import { OpenAiService } from './open_ai/open_ai.service';
 import { AiHistoryService } from './ai_history/ai_history.service';
 
 @Module({
-  imports: [],
-  controllers: [
-    AppController, 
-    PokeController, 
-    ImageController, 
-    PokedexController
-  ],
-  providers: [
-    AppService, 
-    PokeService, 
-    CsvService, 
-    ImageService, 
-    SearchService, 
-    PokedexService, 
-    OpenAiService, 
-    AiHistoryService
-  ],
+    imports: [ConfigModule.forRoot({
+        envFilePath: '.env',
+    })],
+    controllers: [
+        AppController, 
+        PokeController, 
+        ImageController, 
+        PokedexController
+    ],
+    providers: [
+        AppService, 
+        PokeService, 
+        CsvService, 
+        ImageService, 
+        SearchService, 
+        PokedexService, 
+        OpenAiService, 
+        AiHistoryService
+    ],
 })
 export class AppModule {}
