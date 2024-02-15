@@ -17,4 +17,16 @@ export class ImageController {
             throw new HttpException('Invalid', HttpStatus.BAD_REQUEST);
         }
     }
+
+    @Get('generate/:name')
+    async generateImage(@Param() params: any): Promise<string> {
+        try {
+            const { name } = params;
+            const imageUrl: string = await this.imageService.generateImage(name);
+            return imageUrl;
+        }
+        catch (e) {
+            throw new HttpException(e.message, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

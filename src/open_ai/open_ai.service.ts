@@ -34,7 +34,7 @@ export class OpenAiService {
         return gptResponse.choices[0].message.content || "Something went wrong";
     }
 
-    modifyImage = async (prompt: string): Promise<string> => {
+    generateImage = async (prompt: string): Promise<string> => {
         const openai = new OpenAI({
             apiKey: getAPIKey(),
             //dangerouslyAllowBrowser: true
