@@ -26,6 +26,7 @@ export class ImageController {
             return imageUrl;
         }
         catch (e) {
+            console.log(e);
             throw new HttpException(e.message, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

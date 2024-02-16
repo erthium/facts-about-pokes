@@ -10,7 +10,7 @@ export class ImageService {
     }
 
     async generateImage(pokeName: string): Promise<string> {
-        const prompt: string = `Create an image for the pokemon named ${pokeName} in the wild in Pokemon Universe`;
+        const prompt: string = `Create an image for ${pokeName} pokemon`;
         const imageUrl: string = await this.openAiService.generateImage(prompt);
         return imageUrl;
     }

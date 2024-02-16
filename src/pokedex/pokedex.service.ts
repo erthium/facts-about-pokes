@@ -3,11 +3,11 @@ import { AiHistoryService } from 'src/ai_history/ai_history.service';
 import { OpenAiService } from 'src/open_ai/open_ai.service';
 
 // around 24 tokens
-const moreAboutQuestion = "I'm a pokemon enthusiast. I'm looking for more information about {name}. Can you tell me more about it?";
+const moreAboutQuestion = "I'm a pokemon enthusiast. I'm looking for more information about {name}. Can you briefly tell me more about it in 4-6 sentences?";
 // around 21 tokens
-const weaknessesQuestion = "I'm a pokemon enthusiast. I'm looking for more information about {name}. What are its weaknesses?";
+const weaknessesQuestion = "I'm a pokemon enthusiast. I'm looking for more information about {name}. What are its weaknesses? Can you briefly explain in 4-6 sentences?";
 // around 21 tokens
-const strengthsQuestion = "I'm a pokemon enthusiast. I'm looking for more information about {name}. What are its strengths?";
+const strengthsQuestion = "I'm a pokemon enthusiast. I'm looking for more information about {name}. What are its strengths? Can you briefly explain in 4-6 sentences?";
 
 enum Questions {
     about = moreAboutQuestion,

@@ -17,7 +17,7 @@ const getAPIKey = () => {
 export class OpenAiService {
 
     testKey = async () => {
-        const openai = new OpenAI({
+        new OpenAI({
             apiKey: getAPIKey()
         });
     }
@@ -25,7 +25,6 @@ export class OpenAiService {
     askQuestion = async (question: string) => {
         const openai = new OpenAI({
             apiKey: getAPIKey(),
-            //dangerouslyAllowBrowser: true
         });
         const gptResponse = await openai.chat.completions.create({
             model: 'gpt-3.5-turbo',
@@ -37,14 +36,16 @@ export class OpenAiService {
     generateImage = async (prompt: string): Promise<string> => {
         const openai = new OpenAI({
             apiKey: getAPIKey(),
-            //dangerouslyAllowBrowser: true
         });
-        
+        console.log("Generating image for prompt: ", prompt);
         const gptResponse = await openai.images.generate({
             prompt: prompt,
             response_format: 'url',
             model: 'dall-e-2',
-            size: '512x512'
+            size: '1024x1024',
+            quality: 'hd',
+            style: 'vivid',
+            n: 1,
         });
         
         const imageUrl: string = gptResponse.data[0].url;
