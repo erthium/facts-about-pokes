@@ -67,17 +67,24 @@ export class PokeService {
 
 
     async getSuggestions(inputText: string): Promise<string[]> {
-        const suggestions: string[] = [];
+        const suggestions: Map<string, number> = new Map();
         const pokemon_names: string[] = (await CsvService.getColumnByIndex(AppConfig.poke_data_path, 0));
         // remove the first element of the array which is the column name
         pokemon_names.shift();
         for (let i = 0; i < pokemon_names.length; i++) {
-            let isSimiliar = await SearchService.isSimilar(inputText, pokemon_names[i]);
-            if (isSimiliar) {
-                suggestions.push(pokemon_names[i]);
+            const isInWord = await SearchService.wordInWord(inputText, pokemon_names[i]);
+            if (isInWord) {
+                suggestions.set(pokemon_names[i], 1);
+            }
+            else{
+                let similarity = await SearchService.similarity(inputText, pokemon_names[i]);
+                if (similarity > 0.5) {
+                    suggestions.set(pokemon_names[i], similarity);
+                }
             }
         }
-        return suggestions;
+        const sortedSuggestions = new Map([...suggestions.entries()].sort((a, b) => b[1] - a[1]));
+        return Array.from(sortedSuggestions.keys()).slice(0, 10);
     }
 
 

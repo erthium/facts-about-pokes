@@ -56,13 +56,4 @@ export class SearchService {
         return 1 - (await this.levDistance(word, target) / Math.max(word.length, target.length));
     }
 
-
-    static async isSimilar(str1: string, str2: string): Promise<boolean> {
-        // check if two words are similar, checking with similarity percentage and word in word
-        const similartiyPercentage = await this.similarity(str1, str2);
-        if (similartiyPercentage > 0.72 || await this.wordInWord(str1, str2)) {
-            return true;
-        }
-        return false;
-    }
 }
